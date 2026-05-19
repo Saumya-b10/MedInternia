@@ -8,7 +8,6 @@ import {
   Chip,
   CircularProgress,
   Container,
-  Grid,
   Stack,
   TextField,
   Typography,
@@ -80,8 +79,14 @@ export default function DiseaseInsightAssistant() {
                 placeholder="fever, cough, chest pain, shortness of breath"
                 fullWidth
               />
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gap: 2,
+                  gridTemplateColumns: { xs: '1fr', md: '1fr 2fr' },
+                }}
+              >
+                <Box>
                   <TextField
                     label="Age"
                     value={age}
@@ -89,8 +94,8 @@ export default function DiseaseInsightAssistant() {
                     type="number"
                     fullWidth
                   />
-                </Grid>
-                <Grid item xs={12} md={8}>
+                </Box>
+                <Box>
                   <TextField
                     label="Duration"
                     value={duration}
@@ -98,8 +103,8 @@ export default function DiseaseInsightAssistant() {
                     placeholder="3 days, sudden onset, recurring for 2 weeks"
                     fullWidth
                   />
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
               <TextField
                 label="Clinical notes"
                 value={notes}
@@ -123,9 +128,15 @@ export default function DiseaseInsightAssistant() {
           </Alert>
         )}
 
-        <Grid container spacing={2}>
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 2,
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
+          }}
+        >
           {predictions.map((prediction) => (
-            <Grid item xs={12} md={6} key={prediction.condition}>
+            <Box key={prediction.condition}>
               <Card variant="outlined">
                 <CardContent>
                   <Stack direction="row" spacing={1} sx={{ mb: 1 }} flexWrap="wrap">
@@ -160,9 +171,9 @@ export default function DiseaseInsightAssistant() {
                   <Typography color="text.secondary">{prediction.afterEffects.join(', ')}</Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Box>
     </Container>
   );
