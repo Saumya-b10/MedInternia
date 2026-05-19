@@ -13,26 +13,51 @@ export default function ContactPage() {
         background: "linear-gradient(120deg, #e0eafc 0%, #f8f9fa 100%)",
         display: "flex",
         alignItems: "center",
+        overflowX: "hidden",
         py: { xs: 6, md: 10 },
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ width: "100%", px: { xs: 3, sm: 4 } }}>
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={{ xs: 4, md: 8 }}
-          alignItems="center"
+          alignItems={{ xs: "stretch", md: "center" }}
           justifyContent="space-between"
+          sx={{ width: "100%" }}
         >
-          <Box sx={{ maxWidth: 520 }}>
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: { xs: 320, sm: 520 },
+              minWidth: 0,
+            }}
+          >
             <Typography
               variant="h2"
               fontWeight={900}
               color="#2193b0"
-              sx={{ fontSize: { xs: "2.8rem", md: "4.5rem" }, lineHeight: 1 }}
+              sx={{
+                fontSize: { xs: "2.2rem", sm: "3rem", md: "4.5rem" },
+                lineHeight: 1.05,
+                overflowWrap: "anywhere",
+                maxWidth: "100%",
+              }}
             >
               Contact MedInternia
             </Typography>
-            <Typography variant="h5" color="#555" sx={{ mt: 3, fontWeight: 500, lineHeight: 1.5 }}>
+            <Typography
+              variant="h5"
+              color="#555"
+              sx={{
+                mt: 3,
+                fontWeight: 500,
+                lineHeight: 1.5,
+                fontSize: { xs: "1.1rem", sm: "1.35rem", md: "1.5rem" },
+                maxWidth: "100%",
+                overflowWrap: "break-word",
+                wordBreak: "normal",
+              }}
+            >
               Reach the team for platform support, collaboration queries, and medical learning opportunities.
             </Typography>
             <Button
@@ -60,10 +85,11 @@ export default function ContactPage() {
           <Paper
             elevation={6}
             sx={{
-              p: { xs: 4, md: 5 },
+              p: { xs: 3, sm: 4, md: 5 },
+              boxSizing: "border-box",
               borderRadius: 5,
               width: "100%",
-              maxWidth: 500,
+              maxWidth: { xs: 320, sm: 500 },
               textAlign: "left",
               boxShadow: "0 12px 36px rgba(33,147,176,0.18)",
               border: "1px solid rgba(33,147,176,0.12)",
@@ -88,13 +114,22 @@ export default function ContactPage() {
                   p: 2,
                   borderRadius: 3,
                   bgcolor: "rgba(33,147,176,0.08)",
+                  boxSizing: "border-box",
+                  minWidth: 0,
+                  width: "100%",
                 }}
               >
                 <EmailIcon color="primary" />
                 <Typography
                   component="a"
                   href="mailto:medinternia@gmail.com"
-                  sx={{ textDecoration: "none", color: "inherit", fontWeight: 600, wordBreak: "break-word" }}
+                  sx={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    fontWeight: 600,
+                    overflowWrap: "anywhere",
+                    minWidth: 0,
+                  }}
                 >
                   medinternia@gmail.com
                 </Typography>
@@ -108,6 +143,9 @@ export default function ContactPage() {
                   p: 2,
                   borderRadius: 3,
                   bgcolor: "rgba(33,147,176,0.08)",
+                  boxSizing: "border-box",
+                  minWidth: 0,
+                  width: "100%",
                 }}
               >
                 <PhoneIcon color="primary" />
