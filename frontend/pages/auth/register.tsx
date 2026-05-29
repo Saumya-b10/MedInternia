@@ -365,8 +365,14 @@ setStep(2);
     }
   }}
   required
-  error={Boolean(confirmPasswordError)}
-  helperText={confirmPasswordError}
+                      error={Boolean((confirmPassword && confirmPassword !== form.password) || (!confirmPassword && confirmPasswordError))}
+                      helperText={
+                        confirmPassword && confirmPassword !== form.password
+                          ? 'Passwords do not match'
+                          : !confirmPassword
+                            ? confirmPasswordError
+                            : ''
+                      }
   InputProps={{
     endAdornment: (
       <InputAdornment position="end">
