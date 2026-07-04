@@ -21,6 +21,8 @@ import api from "../../utils/api";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { canUser } from "../../utils/permissions";
+import {getCurrentUserRole} from "../../utils/permissions";
+
 import PageHeader from "../../components/layout/PageHeader";
 import EmptyState from "../../components/layout/EmptyState";
 import FilterBar from "../../components/layout/FilterBar";
@@ -52,7 +54,6 @@ export default function Cases() {
   const [recMessage, setRecMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const [canCreateCases, setCanCreateCases] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Filters State
@@ -66,21 +67,16 @@ export default function Cases() {
 
   const [expanded, setExpanded] = useState<string | null>(null);
   const [openDiscussionId, setOpenDiscussionId] = useState<string | null>(null);
+  const userRole = getCurrentUserRole();
   const theme = useTheme();
   const router = useRouter();
+  const canCreateCases = canUser(userRole, "case:create");
 
   // Check login state and permissions
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      api
-        .get("/auth/profile")
-        .then((res) => {
-          const userType = res.data?.data?.user?.userType;
-          setCanCreateCases(canUser(userType, "case:create"));
-        })
-        .catch(() => setCanCreateCases(false));
 
       // Fetch recommended cases
       api
@@ -93,6 +89,16 @@ export default function Cases() {
           console.warn("Failed to fetch recommended cases", err);
         });
     }
+    api
+      .get("/cases")
+      .then((res) => {
+        setCases(res.data.data.cases || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Failed to fetch cases");
+        setLoading(false);
+      });
   }, []);
 
   // Fetch Cases with Filters
