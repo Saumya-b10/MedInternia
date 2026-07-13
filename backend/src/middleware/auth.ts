@@ -20,9 +20,14 @@ export interface AuthRequest extends Request {
 
 export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    let token: string | undefined;
 
     const authHeader = req.headers.authorization;
+    console.log("Authorization Header:", authHeader);
+    console.log("All Headers:", req.headers);
+
+    let token: string | undefined;
+
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.substring(7);
     } else if (req.cookies?.token) {
@@ -52,9 +57,13 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
           message: 'Invalid or expired token'
         });
       }
+
+
+
       
       const user = await User.findById(decoded.userId).select('-password +passwordChangedAt');
       
+
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -163,14 +172,14 @@ export const logger = (req: Request, res: Response, next: NextFunction) => {
 
 export const validateApiKey = (req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers['x-api-key'];
-  
+
   if (!apiKey) {
     return res.status(401).json({
       success: false,
       message: 'API key is required'
     });
   }
-  
+
   // Add your API key validation logic here
   next();
 };
