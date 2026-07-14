@@ -24,6 +24,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ImageIcon from "@mui/icons-material/Image";
 import { withAuth } from "../components/withAuth"; 
 
+
 // Grouped dummy data: 3 doctors, each with 2-3 visits (cases)
 const groupedCases: {
   doctor: string;
@@ -64,7 +65,9 @@ const groupedCases: {
         location: "AIIMS Delhi",
         doctor: "Dr. Bhagya Vardhan",
         ayushmanId: "AYU001234",
-        files: [{ name: "followup_ecg.pdf", type: "pdf", size: "300 KB" }],
+        files: [
+          { name: "followup_ecg.pdf", type: "pdf", size: "300 KB" },
+        ],
         bills: [],
         description:
           "Follow-up for chest pain. ECG repeated, no new findings. Advised rest.",
@@ -85,7 +88,9 @@ const groupedCases: {
         location: "Fortis Hospital",
         doctor: "Dr. Ishwinder Kaur",
         ayushmanId: "AYU001235",
-        files: [{ name: "mri_report.pdf", type: "pdf", size: "1.2 MB" }],
+        files: [
+          { name: "mri_report.pdf", type: "pdf", size: "1.2 MB" },
+        ],
         bills: [],
         description:
           "MRI scan for recurring headaches. No abnormalities detected. Recommended follow-up in 6 months.",
@@ -99,7 +104,9 @@ const groupedCases: {
         location: "Fortis Hospital",
         doctor: "Dr. Ishwinder Kaur",
         ayushmanId: "AYU001235",
-        files: [{ name: "headache_followup.pdf", type: "pdf", size: "400 KB" }],
+        files: [
+          { name: "headache_followup.pdf", type: "pdf", size: "400 KB" },
+        ],
         bills: [],
         description:
           "Follow-up for headaches. Symptoms improved. No new medication prescribed.",
@@ -124,7 +131,9 @@ const groupedCases: {
           { name: "ecg_report.pdf", type: "pdf", size: "300 KB" },
           { name: "echo_report.pdf", type: "pdf", size: "400 KB" },
         ],
-        bills: [{ name: "hospital_bill_max.pdf", type: "pdf", size: "200 KB" }],
+        bills: [
+          { name: "hospital_bill_max.pdf", type: "pdf", size: "200 KB" },
+        ],
         description:
           "Cardiac evaluation and ECG. Mild arrhythmia detected. Prescribed beta-blockers.",
       },
@@ -174,15 +183,7 @@ interface CaseDataType {
   description: string;
 }
 
-function CaseDetailsDialog({
-  open,
-  onClose,
-  caseData,
-}: {
-  open: boolean;
-  onClose: () => void;
-  caseData: CaseDataType | null;
-}) {
+function CaseDetailsDialog({ open, onClose, caseData }: { open: boolean; onClose: () => void; caseData: CaseDataType | null }) {
   if (!caseData) return null;
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -271,10 +272,7 @@ function CaseDetailsDialog({
             target="_blank"
           >
             {file.name}
-            <Typography
-              component="span"
-              sx={{ ml: "auto", fontSize: 13, color: "#888" }}
-            >
+            <Typography component="span" sx={{ ml: "auto", fontSize: 13, color: "#888" }}>
               {file.size}
             </Typography>
           </Button>
@@ -303,10 +301,7 @@ function CaseDetailsDialog({
             target="_blank"
           >
             {file.name}
-            <Typography
-              component="span"
-              sx={{ ml: "auto", fontSize: 13, color: "#888" }}
-            >
+            <Typography component="span" sx={{ ml: "auto", fontSize: 13, color: "#888" }}>
               {file.size}
             </Typography>
           </Button>
@@ -315,18 +310,10 @@ function CaseDetailsDialog({
         <Typography fontWeight={700} fontSize={17} mb={1}>
           Medical Data
         </Typography>
-        <Box
-          sx={{
-            background: "#f8fafc",
-            borderRadius: 2,
-            p: 2,
-            fontSize: 15,
-            color: "#222",
-          }}
-        >
-          {caseData.description}
-        </Box>
-      </DialogContent>
+    <Box sx={{ background: "#f8fafc", borderRadius: 2, p: 2, fontSize: 15, color: "#222" }}>
+      {caseData.description}
+    </Box>
+  </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
         <Button
           onClick={onClose}
@@ -336,11 +323,7 @@ function CaseDetailsDialog({
             color: "#0072ff",
             fontWeight: 600,
             borderRadius: 2,
-            "&:hover": {
-              background: "#e0f7fa",
-              borderColor: "#0056cc",
-              color: "#0056cc",
-            },
+            "&:hover": { background: "#e0f7fa", borderColor: "#0056cc", color: "#0056cc" },
           }}
         >
           Close
@@ -367,11 +350,7 @@ function CaseDetailsDialog({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Success/Error snackbar
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: "success" | "error";
-  }>({
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({
     open: false,
     message: "",
     severity: "success",
@@ -395,10 +374,7 @@ function CaseDetailsDialog({
   };
 
   // Handle file input changes
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "medical" | "bills",
-  ) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: "medical" | "bills") => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
       if (type === "medical") {
@@ -438,8 +414,7 @@ function CaseDetailsDialog({
       newErrors.ayushmanId = "Ayushman Reference ID is required";
     }
     if (!formData.additionalMedicalData.trim()) {
-      newErrors.additionalMedicalData =
-        "Please enter all required patient information before proceeding";
+      newErrors.additionalMedicalData = "Please enter all required patient information before proceeding";
     }
 
     setErrors(newErrors);
@@ -537,8 +512,7 @@ function CaseDetailsDialog({
             }}
           />
           <Typography color="text.secondary" mb={1} fontSize={15}>
-            Upload your raw medical files, bills, and additional data. Only you
-            and authorized medical staff can view your uploads.
+            Upload your raw medical files, bills, and additional data. Only you and authorized medical staff can view your uploads.
           </Typography>
           <Typography
             mb={3}
@@ -553,11 +527,9 @@ function CaseDetailsDialog({
               display: "inline-block",
             }}
           >
-            Your data is hidden and secured. It will not be copied or shared
-            with anyone else.
+            Your data is hidden and secured. It will not be copied or shared with anyone else.
           </Typography>
           <form onSubmit={handleSubmit}>
-            {/* Row 1: Person Name + Date */}
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField
                 label="Person Name"
@@ -565,9 +537,7 @@ function CaseDetailsDialog({
                 variant="outlined"
                 required
                 value={formData.personName}
-                onChange={(e) =>
-                  handleInputChange("personName", e.target.value)
-                }
+                onChange={(e) => handleInputChange("personName", e.target.value)}
                 error={!!errors.personName}
                 helperText={errors.personName}
                 sx={{ mb: { xs: 2, sm: 0 } }}
@@ -578,36 +548,13 @@ function CaseDetailsDialog({
                 fullWidth
                 variant="outlined"
                 required
-                InputLabelProps={{
-                  shrink: true,
-                  sx: {
-                    backgroundColor: "transparent",
-                    px: 0.5,
-                    "&.MuiInputLabel-shrink": {
-                      backgroundColor: (theme) =>
-                        theme.palette.background.paper || "#fff",
-                    },
-                  },
-                }}
+                InputLabelProps={{ shrink: true }}
                 value={formData.date}
                 onChange={(e) => handleInputChange("date", e.target.value)}
                 error={!!errors.date}
                 helperText={errors.date}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(0,0,0,0.23)",
-                    },
-                  },
-                  "& input[type='date']::-webkit-calendar-picker-indicator": {
-                    filter: "invert(0.4)",
-                    cursor: "pointer",
-                  },
-                }}
               />
             </Stack>
-
-            {/* Row 2: Location + Doctor Name (newly added) */}
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={2}>
               <TextField
                 label="Location"
@@ -615,12 +562,9 @@ function CaseDetailsDialog({
                 variant="outlined"
                 required
                 value={formData.location}
-                onChange={(e) =>
-                  handleInputChange("location", e.target.value)
-                }
+                onChange={(e) => handleInputChange("location", e.target.value)}
                 error={!!errors.location}
                 helperText={errors.location}
-                sx={{ mb: { xs: 2, sm: 0 } }}
               />
               <TextField
                 label="Doctor Name"
@@ -628,41 +572,29 @@ function CaseDetailsDialog({
                 variant="outlined"
                 required
                 value={formData.doctorName}
-                onChange={(e) =>
-                  handleInputChange("doctorName", e.target.value)
-                }
+                onChange={(e) => handleInputChange("doctorName", e.target.value)}
                 error={!!errors.doctorName}
                 helperText={errors.doctorName}
               />
             </Stack>
-
-            {/* Row 3: Ayushman Reference ID (newly added, full width) */}
             <TextField
               label="Ayushman Reference ID"
               fullWidth
               variant="outlined"
               required
               value={formData.ayushmanId}
-              onChange={(e) =>
-                handleInputChange("ayushmanId", e.target.value)
-              }
+              onChange={(e) => handleInputChange("ayushmanId", e.target.value)}
               error={!!errors.ayushmanId}
               helperText={errors.ayushmanId}
               sx={{ mt: 2 }}
             />
-
-            {/* Row 4: Upload buttons */}
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={3} mb={1}>
               <Button
                 variant="contained"
                 component="label"
-                fullWidth
                 sx={{
-                  flex: 1,
-                  py: 1.2,
                   borderRadius: 2,
                   fontWeight: 700,
-                  textTransform: "none",
                   background: "linear-gradient(90deg, #0072ff 0%, #6dd5ed 100%)",
                   color: "#fff",
                   boxShadow: "0 2px 8px #0072ff33",
@@ -683,13 +615,9 @@ function CaseDetailsDialog({
               <Button
                 variant="outlined"
                 component="label"
-                fullWidth
                 sx={{
-                  flex: 1,
-                  py: 1.2,
                   borderRadius: 2,
                   fontWeight: 600,
-                  textTransform: "none",
                   borderColor: "#0072ff",
                   color: "#0072ff",
                   "&:hover": {
@@ -745,14 +673,9 @@ function CaseDetailsDialog({
               variant="outlined"
               required
               value={formData.additionalMedicalData}
-              onChange={(e) =>
-                handleInputChange("additionalMedicalData", e.target.value)
-              }
+              onChange={(e) => handleInputChange("additionalMedicalData", e.target.value)}
               error={!!errors.additionalMedicalData}
-              helperText={
-                errors.additionalMedicalData ||
-                "Enter symptoms, diagnosis, treatment details, medications prescribed, or any other relevant medical information..."
-              }
+              helperText={errors.additionalMedicalData || "Enter symptoms, diagnosis, treatment details, medications prescribed, or any other relevant medical information..."}
               sx={{ mb: 2, mt: 2 }}
               placeholder="Enter symptoms, diagnosis, treatment details, medications prescribed, or any other relevant medical information..."
             />
@@ -769,8 +692,7 @@ function CaseDetailsDialog({
                 color: "#fff",
                 boxShadow: "0 2px 12px #0072ff44",
                 "&:hover": {
-                  background:
-                    "linear-gradient(90deg, #6dd5ed 0%, #0072ff 100%)",
+                  background: "linear-gradient(90deg, #6dd5ed 0%, #0072ff 100%)",
                   boxShadow: "0 4px 20px #0072ff66",
                   transform: "scale(1.03)",
                 },
@@ -797,8 +719,7 @@ function CaseDetailsDialog({
                 gap={2}
                 mb={2}
                 sx={{
-                  background:
-                    "linear-gradient(90deg, #e0f7fa 0%, #e0eafc 100%)",
+                  background: "linear-gradient(90deg, #e0f7fa 0%, #e0eafc 100%)",
                   borderRadius: 3,
                   px: 2,
                   py: 1.5,
@@ -843,18 +764,14 @@ function CaseDetailsDialog({
                         borderColor: "#0072ff",
                       },
                     }}
-                    onClick={() => {
-                      setSelectedCase(c);
-                      setOpenDialog(true);
-                    }}
+                    onClick={() => { setSelectedCase(c); setOpenDialog(true); }}
                   >
                     {/* Top accent bar on case card */}
                     <Box
                       sx={{
                         height: 4,
                         borderRadius: 2,
-                        background:
-                          "linear-gradient(90deg, #0072ff 0%, #6dd5ed 100%)",
+                        background: "linear-gradient(90deg, #0072ff 0%, #6dd5ed 100%)",
                         mb: 2,
                         mx: -3,
                         mt: -3,
@@ -862,12 +779,7 @@ function CaseDetailsDialog({
                         borderTopRightRadius: 12,
                       }}
                     />
-                    <Typography
-                      fontWeight={700}
-                      fontSize={17}
-                      mb={1}
-                      color="#0056cc"
-                    >
+                    <Typography fontWeight={700} fontSize={17} mb={1} color="#0056cc">
                       {c.title}
                     </Typography>
                     <Chip
@@ -882,12 +794,7 @@ function CaseDetailsDialog({
                         mb: 1.5,
                       }}
                     />
-                    <Typography
-                      fontSize={15}
-                      mb={0.5}
-                      fontWeight={600}
-                      color="#222"
-                    >
+                    <Typography fontSize={15} mb={0.5} fontWeight={600} color="#222">
                       {c.patient}
                     </Typography>
                     <Typography fontSize={13} color="#888" mb={0.5}>
@@ -896,31 +803,17 @@ function CaseDetailsDialog({
                     <Typography fontSize={13} color="#888" mb={0.5}>
                       {c.location}
                     </Typography>
-                    <Typography
-                      fontSize={13}
-                      color="#0072ff"
-                      mb={0.5}
-                      fontWeight={500}
-                    >
+                    <Typography fontSize={13} color="#0072ff" mb={0.5} fontWeight={500}>
                       {c.doctor}
                     </Typography>
                     <Typography fontSize={13} color="#888" mb={1.5}>
-                      {c.description.slice(0, 60)}
-                      {c.description.length > 60 ? "..." : ""}
+                      {c.description.slice(0, 60)}{c.description.length > 60 ? "..." : ""}
                     </Typography>
                     <Stack direction="row" spacing={2} alignItems="center">
-                      <Typography
-                        fontSize={12}
-                        color="#0072ff"
-                        fontWeight={600}
-                      >
+                      <Typography fontSize={12} color="#0072ff" fontWeight={600}>
                         {c.files.length} files
                       </Typography>
-                      <Typography
-                        fontSize={12}
-                        color="#0072ff"
-                        fontWeight={600}
-                      >
+                      <Typography fontSize={12} color="#0072ff" fontWeight={600}>
                         {c.bills.length} bills
                       </Typography>
                     </Stack>
@@ -931,11 +824,7 @@ function CaseDetailsDialog({
           ))}
         </Stack>
       </Box>
-      <CaseDetailsDialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-        caseData={selectedCase}
-      />
+      <CaseDetailsDialog open={openDialog} onClose={() => setOpenDialog(false)} caseData={selectedCase} />
 
       {/* Success/Error Snackbar */}
       <Snackbar
@@ -956,3 +845,4 @@ function CaseDetailsDialog({
     </Box>
   );
 }
+export default UploadRawPage;
