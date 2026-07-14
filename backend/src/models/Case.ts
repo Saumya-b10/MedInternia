@@ -41,6 +41,7 @@ export interface ICase extends Document {
   doctor: mongoose.Types.ObjectId;
   comments: IComment[];
   likes: mongoose.Types.ObjectId[];
+  starredBy: mongoose.Types.ObjectId[];
   isActive: boolean;
   isRareDisease?: boolean;
   isPatientCase: boolean; // True if posted by patient
@@ -212,6 +213,10 @@ const CaseSchema = new Schema<ICase>({
   },
   comments: [CommentSchema],
   likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  starredBy: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
