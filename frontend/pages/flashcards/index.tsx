@@ -12,7 +12,6 @@ import QuizIcon from '@mui/icons-material/Quiz';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import api from '../../utils/api';
 import PageHeader from '../../components/layout/PageHeader';
-import { demoFlashcards } from '../../utils/demoData';
 
 export default function FlashcardsPage() {
   const router = useRouter();
@@ -34,12 +33,11 @@ export default function FlashcardsPage() {
         api.get('/flashcards/due', { headers: { Authorization: `Bearer ${token}` } }),
       ]);
       const fetchedCards = allRes.data.data || [];
-      const cardsToShow = fetchedCards.length > 0 ? fetchedCards : demoFlashcards;
-      setFlashcards(cardsToShow);
-      setDueCount(fetchedCards.length > 0 ? dueRes.data.count : demoFlashcards.filter(card => new Date(card.nextReview) <= new Date()).length);
+      setFlashcards(fetchedCards);
+      setDueCount(dueRes.data.count || 0);
     } catch {
-      setFlashcards(demoFlashcards);
-      setDueCount(demoFlashcards.filter(card => new Date(card.nextReview) <= new Date()).length);
+      setFlashcards([]);
+      setDueCount(0);
     } finally {
       setLoading(false);
     }
@@ -48,11 +46,6 @@ export default function FlashcardsPage() {
   useEffect(() => { fetchData(); }, []);
 
   const handleDelete = async (id: string) => {
-    if (id.startsWith('demo-')) {
-      setFlashcards(prev => prev.filter(f => f._id !== id));
-      return;
-    }
-
     try {
       const token = localStorage.getItem('token');
       await api.delete(`/flashcards/${id}`, { headers: { Authorization: `Bearer ${token}` } });

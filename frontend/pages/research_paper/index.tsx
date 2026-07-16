@@ -16,7 +16,6 @@ import { useRouter } from 'next/router';
 import api from '../../utils/api';
 import { getCurrentUserRole } from '../../utils/permissions';
 import { FileText, Upload } from 'lucide-react';
-import { demoResearchPapers } from '../../utils/demoData';
 
 export default function ResearchPaperUpload() {
   const [form, setForm] = useState({
@@ -58,9 +57,9 @@ export default function ResearchPaperUpload() {
     try {
       const res = await api.get('/research-papers');
       const fetchedPapers = Array.isArray(res.data) ? res.data : [];
-      setPapers(fetchedPapers.length > 0 ? fetchedPapers : demoResearchPapers);
+      setPapers(fetchedPapers);
     } catch (err) {
-      setPapers(demoResearchPapers);
+      setPapers([]);
     } finally {
       setLoading(false);
     }
